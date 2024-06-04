@@ -1,0 +1,31 @@
+/* styles.css */
+.content-report {
+  background-color: #fff;
+  color: #000;
+  margin: 200px;
+  padding: 50px;
+  text-align: center;
+  border-radius: 20px;
+  box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+button {
+  background-color: #5271FF;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 10px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #3e60f7;
+}
+
+/* For screens smaller than 600px */
+@media (max-width: 600px) {
+  .content-report {
+    margin: 20px;
+    padding: 20px;
+  }
+}

@@ -1,20 +1,83 @@
-/* src/Map.css */
-.blue-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: blue;
+@import url('https://fonts.googleapis.com/css2?family=Coiny&display=swap');
+
+* {
+  font-family: "Coiny", system-ui;
+  font-weight: 400;
+  font-style: normal;
 }
 
-.sidebar {
-  background-color: rgb(35 55 75 / 90%);
+
+.header {
+  background-color: #5271FF;
+  padding: 5px;
+  text-align: center;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 24px;
+  color: #000000;
+}
+
+.header-image {
+  height: 40px;
+  margin-right: 10px;
+}
+
+.navtab {
+  background-color: #E665B4;
+  padding: 5px;
+  text-align: center;
+  border-bottom: 1px solid #dee2e6;
+  border-bottom-left-radius: 10px;  /* Add this line */
+  border-bottom-right-radius: 10px;  /* Add this line */
+  box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);  /* Add this line */
+}
+
+.navtab a h2 {
+  display: inline-block;
+  margin: 0;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: 15px;
   color: #fff;
-  padding: 6px 12px;
-  font-family: monospace;
-  z-index: 1;
-  position: absolute;
-  top: 0;
-  left: 0;
-  margin: 12px;
-  border-radius: 4px;
+}
+
+.floating-icon-left {
+  position: fixed;
+  bottom: 10px;
+  left: 20px;
+  z-index: 100;
+}
+
+.floating-icon-right {
+  position: fixed;
+  bottom: 10px;
+  right: 20px;
+  z-index: 100;
+}
+
+.content {
+  margin-top: 50px;
+  background-color: #0D1437;
+  color: #fff;
+  padding: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: center;
+  border-radius: 20px;
+}
+
+/* For screens smaller than 600px */
+@media (max-width: 600px) {
+  .about-us {
+    padding: 10px !important;
+  }
+
+  .content {
+    font-size: small;
+    padding: 1px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
 }
