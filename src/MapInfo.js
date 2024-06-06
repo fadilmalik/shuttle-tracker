@@ -3,9 +3,10 @@ import backgroundImage from "./assets/background.png";
 import { useNavigate } from "react-router-dom";
 import backButton from "./assets/icon/back-button.png";
 import "./Report.css";
-import warning from "./assets/icon/warning.png";
+import "./MapInfo.css";
+import staticMap from "./assets/static-map.jpeg";
 
-const Report = () => {
+const MapInfo = () => {
   const navigate = useNavigate();
 
   return (
@@ -34,12 +35,12 @@ const Report = () => {
             }}
           />
         </button>
-        <h2>Report</h2>
+        <h2>Maps</h2>
       </div>
       <div
         className="about-us"
         style={{
-          padding: "50px",
+          padding: "10px",
           backgroundImage: `url(${backgroundImage})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
@@ -48,17 +49,17 @@ const Report = () => {
           boxSizing: "border-box",
         }}
       >
-        <div className="content-report">
-          <img src={warning} alt="warning" style={{ width: '50px' }} />
-          <p>
-            Jika ada saran atau keluhan, anda bisa melapor dengan menekan
-            tombol di bawah ini
-          </p>
-          <button>Berikan Saran</button>
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: '50px'
+        }}>
+          <img className="static-map" src={staticMap} alt="staticMap" style={{ width: '500px', borderRadius: '20px' }} />
         </div>
       </div>
     </div>
   );
 };
 
-export default Report;
+export default MapInfo;

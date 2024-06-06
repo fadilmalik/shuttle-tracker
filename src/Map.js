@@ -25,7 +25,7 @@ const Map = () => {
     // Initialize map
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style: "mapbox://styles/mapbox/streets-v11",
+      style: "mapbox://styles/mapbox/streets-v12",
       center: [lng, lat], // Default center (Bandung coordinates)
       zoom: zoom, // Initial zoom level
     });
@@ -150,7 +150,7 @@ const Map = () => {
         {/* <h1>Shut <img src={shuttle} alt="shuttle" style={{width: '24px'}} /> Up!</h1> */}
       </div>
       <div className="navtab">
-        <a href="#aa">
+        <a href="/map-info">
           <h2>Maps</h2>
         </a>
         <a href="/about-us">

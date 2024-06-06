@@ -6,6 +6,7 @@ import Map from "./Map";
 import Login from "./Login";
 import AboutUs from "./AboutUs";
 import Report from "./Report";
+import MapInfo from "./MapInfo";
 import PrivateRoute from "./PrivateRoute";
 import { AuthProvider } from "./AuthContext";
 
@@ -20,6 +21,7 @@ const App = () => {
           </Route>
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/report" element={<Report />} />
+          <Route path="/map-info" element={<MapInfo />} />
           <Route path="/" element={<Map />} />
         </Routes>
       </Router>

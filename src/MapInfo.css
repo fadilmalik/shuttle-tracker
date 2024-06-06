@@ -1,0 +1,7 @@
+/* For screens smaller than 600px */
+@media (max-width: 600px) {
+ .static-map {
+   width: 100%;
+   height: 400px;
+ }
+}
