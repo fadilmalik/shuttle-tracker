@@ -49,7 +49,7 @@ export const AuthProvider = ({ children }) => {
         });
         setIsAuthenticated(true);
       } else {
-        throw new Error("Invalid credentials");
+        throw new Error("Invalid credentials!");
       }
     } else {
       throw new Error("No such user");

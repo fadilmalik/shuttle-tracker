@@ -23,3 +23,11 @@ server.on('connection', (ws) => {
 });
 
 console.log('WebSocket server is running on ws://localhost:3001/ws');
+
+
+// Listen for the process exit event
+process.on('exit', () => {
+  server.close(() => {
+    console.log('WebSocket server is shutting down...');
+  });
+});

@@ -1,0 +1,76 @@
+.form-container {
+  display: flex;
+  flex-direction: column; /* Add this line */
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: url('./assets/background.png') no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.logo {
+  display: block;
+  margin: 0 auto 20px; /* Adjust as needed */
+  width: 200px; /* Adjust as needed */
+  height: auto;
+}
+
+.login-form {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+}
+
+.login-form div {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.login-form button {
+  display: block;
+  margin-left: auto;
+  border: none;
+  padding: 5px 15px;
+}
+
+.login-form label {
+  color: #D3E1EF;
+  font-size: 0.8rem;
+}
+
+.login-form input {
+  background-color: #D3E1EF;
+  border-radius: 5px;
+  border: none;
+  font-size: 0.7rem;
+}
+
+.login-form input:hover {
+  background-color: #BCCDD9; /* Change this to your desired hover color */
+}
+
+.login-form input:active {
+  background-color: #AAB9C4; /* Change this to your desired active color */
+}
+
+.login-form input:focus {
+  outline: 2px solid #007BFF; /* Change this to your desired outline color and width */
+}
+
+.input-group {
+  background-color: #3C558E; /* Change this to your desired color */
+  padding: 2px 5px 5px 5px; /* top, right, bottom, left */
+  border-radius: 10px;
+  color: #D3E1EF;
+}
+
+.error-message {
+  color: white;
+  font-size: 0.8rem;
+  margin-top: 5px;
+}
