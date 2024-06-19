@@ -1,14 +1,14 @@
 // src/Map.js
-import React, { useEffect, useRef, useState } from "react";
-import mapboxgl from "mapbox-gl";
-import { firestore } from "./firebase";
 import { doc, onSnapshot } from "firebase/firestore";
+import mapboxgl from "mapbox-gl";
+import React, { useEffect, useRef, useState } from "react";
 import "./Map.css";
-import sources from "./sources.json";
-import logo from "./assets/shutup-logo.png";
 import shuttle from "./assets/icon/bus.png";
-import location from "./assets/icon/location.png";
 import danger from "./assets/icon/danger.png";
+import location from "./assets/icon/location.png";
+import logo from "./assets/shutup-logo.png";
+import { firestore } from "./firebase";
+import sources from "./sources.json";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiZmFkaWxtYWxpayIsImEiOiJjbHdwdnFobmMyb2NlMmlwcDB5dXhrc3ZxIn0.bP8EisT79t7XJh9UzuhHqg";
@@ -18,7 +18,7 @@ const Map = () => {
   const map = useRef(null);
   // const marker = useRef(null);
   const [lng, setLng] = useState(107.7695);
-  const [lat, setLat] = useState(-6.9302);
+  const [lat, setLat] = useState(-6.9299);
   const [zoom, setZoom] = useState(15.9);
 
   useEffect(() => {
@@ -157,7 +157,11 @@ const Map = () => {
           <h2>About Us</h2>
         </a>
       </div>
-      <div ref={mapContainer} style={{ width: "100vw", height: "100vh" }} />
+      <div
+        className="mapboxgl-map"
+        ref={mapContainer}
+        style={{ width: "100vw", height: "100vh" }}
+      />
       <div className="floating-icon-left">
         <h2 style={{ fontSize: "13px" }}>
           <img
@@ -178,7 +182,9 @@ const Map = () => {
       </div>
       <div className="floating-icon-right">
         <h2 style={{ fontSize: "15px", display: "flex", alignItems: "center" }}>
-          <a href="/report"><img src={danger} alt="another icon" style={{ width: "30px" }} /></a>
+          <a href="/report">
+            <img src={danger} alt="another icon" style={{ width: "30px" }} />
+          </a>
         </h2>
       </div>
     </div>
