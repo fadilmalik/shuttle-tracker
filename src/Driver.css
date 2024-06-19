@@ -1,0 +1,49 @@
+.container {
+  display: flex;
+  flex-direction: column; /* Add this line */
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: url('./assets/background.png') no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.card {
+  display: flex;
+  flex-direction: column; /* Add this line */
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+  background-color: #D3E1EF;
+  border-radius: 10px;
+  opacity: 0.8;
+}
+
+.card-title {
+  text-decoration: underline;
+}
+
+.location-logo {
+  display: block;
+  margin: 0 auto 20px;
+  width: 100px;
+  height: auto;
+}
+
+.coordinates {
+  padding: 0;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.btn-logout {
+  display: inline;
+  margin-left: auto;
+  margin-top: 20px;
+}

@@ -1,9 +1,11 @@
 // src/AuthContext.js
-import React, { createContext, useContext, useState, useEffect } from "react";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { v4 } from "uuid";
 import { firestore } from "./firebase";
 
 const AuthContext = createContext();
+const COLLECTION = "shuttles";
 
 export const useAuth = () => useContext(AuthContext);
 
@@ -13,10 +15,15 @@ export const AuthProvider = ({ children }) => {
     return savedAuthState ? JSON.parse(savedAuthState) : false;
   });
   const [loading, setLoading] = useState(true);
+  // Initialize userData from localStorage
+  const [userData, setUserData] = useState(() => {
+    const savedUserData = window.localStorage.getItem("userData");
+    return savedUserData ? JSON.parse(savedUserData) : null;
+  });
 
   useEffect(() => {
     const checkAuth = async () => {
-      const docRef = doc(firestore, "shuttles", "driver-1");
+      const docRef = doc(firestore, COLLECTION, "driver-1");
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
@@ -34,20 +41,37 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (username, password) => {
-    const docRef = doc(firestore, "shuttles", "driver-1");
+    const docRef = doc(firestore, COLLECTION, "driver-1");
     const docSnap = await getDoc(docRef);
+
+    // Step 1: Generate or retrieve a device ID
+    let deviceId = localStorage.getItem("deviceId");
+    if (!deviceId) {
+      deviceId = v4(); // Implement this function based on your requirements
+      localStorage.setItem("deviceId", deviceId);
+    }
 
     if (docSnap.exists()) {
       const data = docSnap.data();
-      if (data.loggedIn) {
-        throw new Error("Already logged in on another device");
-      }
 
       if (data.username === username && data.password === password) {
+        if (data.loggedIn) {
+          // Step 3: Compare device IDs
+          if (data.deviceId === deviceId) {
+            console.log("Same device, already logged in");
+            // Optionally, refresh the session or simply return
+          } else {
+            throw new Error("Already logged in on another device");
+          }
+        }
+        // Step 2: Store the device ID on login
         await updateDoc(docRef, {
           loggedIn: true,
+          deviceId: deviceId, // Store the device ID
         });
+        setUserData(data);
         setIsAuthenticated(true);
+        window.localStorage.setItem("userData", JSON.stringify(data));
       } else {
         throw new Error("Invalid credentials!");
       }
@@ -57,13 +81,33 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
-    const docRef = doc(firestore, "shuttles", "driver-1");
-    await updateDoc(docRef, { loggedIn: false });
+    // Update the loggedIn status in your database
+    const docRef = doc(firestore, COLLECTION, "driver-1");
+    await updateDoc(docRef, {
+      loggedIn: false,
+      // Optionally, you might want to clear or update the deviceId in the database as well
+      deviceId: null, // Clear the deviceId in the database if necessary
+    });
+
+    // Remove the device ID from local storage
+    localStorage.removeItem("deviceId");
+
+    // Update local state to reflect that the user is no longer authenticated
     setIsAuthenticated(false);
+
+    // Optionally, clear any other local storage or session data related to the user session
+    window.localStorage.removeItem("isAuthenticated");
+
+    // Clear userData from localStorage
+    window.localStorage.removeItem("userData");
+    // Clear user data from state
+    setUserData(null);
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout, loading }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, login, logout, loading, userData }}
+    >
       {!loading && children}
     </AuthContext.Provider>
   );
