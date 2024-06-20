@@ -1,8 +1,8 @@
 import React from "react";
-import backgroundImage from "./assets/background.png";
 import { useNavigate } from "react-router-dom";
-import backButton from "./assets/icon/back-button.png";
 import "./Report.css";
+import backgroundImage from "./assets/background.png";
+import backButton from "./assets/icon/back-button.png";
 import warning from "./assets/icon/warning.png";
 
 const Report = () => {
@@ -49,12 +49,19 @@ const Report = () => {
         }}
       >
         <div className="content-report">
-          <img src={warning} alt="warning" style={{ width: '50px' }} />
+          <img src={warning} alt="warning" style={{ width: "50px" }} />
           <p>
-            Jika ada saran atau keluhan, anda bisa melapor dengan menekan
-            tombol di bawah ini
+            Jika ada saran atau keluhan, anda bisa melapor dengan menekan tombol
+            di bawah ini
           </p>
-          <button>Berikan Saran</button>
+          <a
+            className="report-button"
+            target="_blank"
+            href="https://docs.google.com/forms/d/e/1FAIpQLSdAfj023jeup_s_Kfs4xt5YhscXd9YQWdQPUgoOb7BS4EuzBQ/viewform?usp=sf_link"
+            rel="noreferrer"
+          >
+            Berikan Saran
+          </a>
         </div>
       </div>
     </div>
