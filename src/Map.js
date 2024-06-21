@@ -7,6 +7,7 @@ import "./Map.css";
 import shuttle from "./assets/icon/bus.png";
 import danger from "./assets/icon/danger.png";
 import location from "./assets/icon/location.png";
+import shuttleStation from "./assets/icon/shuttle-station.png";
 import logo from "./assets/shutup-logo.png";
 import { firestore } from "./firebase";
 import sources from "./sources.json";
@@ -319,6 +320,14 @@ const Map = () => {
       <div className="floating-icon-left">
         <h2 style={{ fontSize: "13px" }}>
           <img
+            src={shuttleStation}
+            alt="shuttleStation"
+            style={{ width: "25px", marginRight: "5px" }}
+          />{" "}
+          Shuttle Station
+        </h2>
+        <h2 style={{ fontSize: "13px" }}>
+          <img
             src={shuttle}
             alt="shuttle"
             style={{ width: "25px", marginRight: "5px" }}
@@ -328,7 +337,7 @@ const Map = () => {
         <h2 style={{ fontSize: "13px", cursor: "pointer" }} id="your-location">
           <img
             src={location}
-            alt="shuttle"
+            alt="location"
             style={{ width: "25px", marginRight: "5px" }}
             title="Click to go to your location"
           />{" "}
