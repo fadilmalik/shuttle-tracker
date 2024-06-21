@@ -2,6 +2,7 @@
 import { doc, onSnapshot } from "firebase/firestore";
 import mapboxgl from "mapbox-gl";
 import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Map.css";
 import shuttle from "./assets/icon/bus.png";
 import danger from "./assets/icon/danger.png";
@@ -14,6 +15,7 @@ mapboxgl.accessToken =
   "pk.eyJ1IjoiZmFkaWxtYWxpayIsImEiOiJjbHdwdnFobmMyb2NlMmlwcDB5dXhrc3ZxIn0.bP8EisT79t7XJh9UzuhHqg";
 
 const Map = () => {
+  const navigate = useNavigate(); // Initialize useHistory
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [lng, setLng] = useState(107.7691);
@@ -21,6 +23,11 @@ const Map = () => {
   const [zoom, setZoom] = useState(15.7);
 
   useEffect(() => {
+    const deviceId = localStorage.getItem("deviceId");
+    if (deviceId) {
+      navigate("/driver"); // Redirect to /driver if device ID is found
+    }
+
     // Initialize map
     map.current = new mapboxgl.Map({
       container: "root",
@@ -73,6 +80,47 @@ const Map = () => {
           console.error("Invalid geometry data");
         }
       }
+
+      // Obtain the user's current location
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          const userLat = position.coords.latitude;
+          const userLng = position.coords.longitude;
+
+          // Add a marker for the user's location
+          map.marker.setLngLat([userLng, userLat]).addTo(map.current);
+
+          // Optionally, center the map on the user's location
+          // map.current.flyTo({ center: [userLng, userLat], zoom: 15 });
+        });
+      } else {
+        console.log("Geolocation is not supported by this browser.");
+      }
+
+      // Function to fly to the user's current location
+      function flyToUserLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              const userLat = position.coords.latitude;
+              const userLng = position.coords.longitude;
+              console.log("User's location:", userLat, userLng);
+              // Center the map on the user's location
+              map.current.flyTo({ center: [userLng, userLat], zoom: 15 });
+            },
+            (error) => {
+              console.error("Error obtaining location", error);
+            }
+          );
+        } else {
+          console.log("Geolocation is not supported by this browser.");
+        }
+      }
+
+      // Attach the flyToUserLocation function to a click event on an element
+      document
+        .getElementById("your-location")
+        .addEventListener("click", flyToUserLocation);
     });
 
     map.current.on("click", (event) => {
@@ -116,95 +164,61 @@ const Map = () => {
     });
 
     // Listen for driver's location updates from Firestore
-    const unsubscribe = onSnapshot(
+    const unsubscribe1 = onSnapshot(
+      // driver-1
       doc(firestore, "shuttles", "driver-1"),
       (doc) => {
         if (doc.exists()) {
           const data = doc.data();
+          console.log("lng", lng, "lat", lat, "zoom", zoom);
+          const loggedIn = data.loggedIn;
+          const { longitude: driverLng, latitude: driverLat } =
+            data.coordinates;
+          console.log("Driver's location:", driverLat, driverLng);
 
-          const {
-            longitude: driverLng,
-            latitude: driverLat,
-            loggedIn,
-          } = data.coordinates;
-
-          if (!loggedIn === true) {
-            let geojson = {
-              type: "FeatureCollection",
-              features: [
-                {
-                  type: "Feature",
-                  geometry: {
-                    type: "Point",
-                    coordinates: [driverLng, driverLat],
-                  },
+          let geojson = {
+            type: "FeatureCollection",
+            features: [
+              {
+                type: "Feature",
+                geometry: {
+                  type: "Point",
+                  coordinates: [driverLng, driverLat],
                 },
-              ],
-            };
-
+              },
+            ],
+          };
+          console.log("geojson", geojson);
+          if (loggedIn === true) {
             // Ensure coordinates are numbers
             // Check if the source already exists before adding it
             if (!map.current.getSource("iss")) {
               map.current.addSource("iss", { type: "geojson", data: geojson });
+
+              map.current.addLayer({
+                id: "iss",
+                type: "symbol",
+                source: "iss",
+                layout: {
+                  "icon-image": "marker-shuttle",
+                },
+              });
+
+              // map.current.getSource("iss").setData(geojson);
             } else {
               // If it exists, update its data
               map.current.getSource("iss").setData(geojson);
             }
 
-            map.current.addLayer({
-              id: "iss",
-              type: "symbol",
-              source: "iss",
-              layout: {
-                "icon-image": "marker-shuttle",
-              },
-            });
-
-            map.current.moveLayer("iss");
-          }
-
-          // Obtain the user's current location
-          if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((position) => {
-              const userLat = position.coords.latitude;
-              const userLng = position.coords.longitude;
-
-              // Add a marker for the user's location
-              new mapboxgl.Marker()
-                .setLngLat([userLng, userLat])
-                .addTo(map.current);
-
-              // Optionally, center the map on the user's location
-              // map.current.flyTo({ center: [userLng, userLat], zoom: 15 });
-            });
+            // map.current.moveLayer("iss");
           } else {
-            console.log("Geolocation is not supported by this browser.");
+            // if (map.current.getLayer("iss")) {
+            //   map.current.removeLayer("iss");
+            //   if (map.current.getSource("iss")) {
+            //     map.current.removeSource("iss");
+            //   }
+            // }
           }
-
-          // Function to fly to the user's current location
-          function flyToUserLocation() {
-            if (navigator.geolocation) {
-              navigator.geolocation.getCurrentPosition(
-                (position) => {
-                  const userLat = position.coords.latitude;
-                  const userLng = position.coords.longitude;
-
-                  // Center the map on the user's location
-                  map.current.flyTo({ center: [userLng, userLat], zoom: 15 });
-                },
-                (error) => {
-                  console.error("Error obtaining location", error);
-                }
-              );
-            } else {
-              console.log("Geolocation is not supported by this browser.");
-            }
-          }
-
-          // Attach the flyToUserLocation function to a click event on an element
-          document
-            .getElementById("your-location")
-            .addEventListener("click", flyToUserLocation);
 
           map.current.on("move", () => {
             setLng(map.current.getCenter().lng.toFixed(4));
@@ -219,10 +233,69 @@ const Map = () => {
       }
     );
 
+    const unsubscribe2 = onSnapshot(
+      doc(firestore, "shuttles", "driver-1"),
+      (doc) => {
+        if (doc.exists()) {
+          const data = doc.data();
+
+          const loggedIn = data.loggedIn;
+          const { longitude: driverLng, latitude: driverLat } =
+            data.coordinates;
+
+          let geojson = {
+            type: "FeatureCollection",
+            features: [
+              {
+                type: "Feature",
+                geometry: {
+                  type: "Point",
+                  coordinates: [driverLng, driverLat],
+                },
+              },
+            ],
+          };
+
+          if (loggedIn === true) {
+            // Ensure coordinates are numbers
+            // Check if the source already exists before adding it
+            if (!map.current.getSource("iss")) {
+              map.current.addSource("iss", { type: "geojson", data: geojson });
+
+              map.current.addLayer({
+                id: "iss",
+                type: "symbol",
+                source: "iss",
+                layout: {
+                  "icon-image": "marker-shuttle",
+                },
+              });
+
+              // map.current.getSource("iss").setData(geojson);
+            } else {
+              // If it exists, update its data
+              map.current.getSource("iss").setData(geojson);
+            }
+
+            // map.current.moveLayer("iss");
+          } else {
+            if (map.current.getLayer("iss")) {
+              map.current.removeLayer("iss");
+              if (map.current.getSource("iss")) {
+                map.current.removeSource("iss");
+              }
+            }
+          }
+        }
+      }
+    );
+
     // Clean up on unmount
     return () => {
       map.current.remove();
-      unsubscribe();
+      map.marker.remove();
+      unsubscribe1();
+      unsubscribe2();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
