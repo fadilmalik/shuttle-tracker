@@ -1,5 +1,5 @@
 // src/Login.js
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 import "./Login.css";
@@ -12,6 +12,16 @@ const Login = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  useEffect(() => {
+    // Retrieve the userData from local storage
+    const userData = localStorage.getItem("userData");
+
+    // Check if userData is not null
+    if (userData) {
+      navigate("/driver");
+    }
+  }, [navigate]);
+
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
@@ -23,7 +33,12 @@ const Login = () => {
   };
 
   return (
-    <div className="form-container">
+    <div
+      className="form-container"
+      style={{
+        fontFamily: "Coiny, sans-serif",
+      }}
+    >
       <form onSubmit={handleLogin} className="login-form">
         <img src={logo} alt="ShutUp Logo" className="logo" />
 

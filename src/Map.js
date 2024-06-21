@@ -16,21 +16,86 @@ mapboxgl.accessToken =
 const Map = () => {
   const mapContainer = useRef(null);
   const map = useRef(null);
-  // const marker = useRef(null);
   const [lng, setLng] = useState(107.7691);
-  const [lat, setLat] = useState(-6.93);
+  const [lat, setLat] = useState(-6.9289);
   const [zoom, setZoom] = useState(15.7);
 
   useEffect(() => {
     // Initialize map
     map.current = new mapboxgl.Map({
-      container: mapContainer.current,
+      container: "root",
       style: "mapbox://styles/fadilmalik/clxny335800iv01qq5w8bd7pq",
       center: [lng, lat], // Default center (Bandung coordinates)
       zoom: zoom, // Initial zoom level
     });
 
     map.marker = new mapboxgl.Marker();
+
+    map.current.on("load", function () {
+      // Check if the source already exists
+      if (!map.current.getSource("route")) {
+        // Check if the geometry data exists and is in the correct format
+        if (
+          sources.routes[0]?.geometry &&
+          sources.routes[0].geometry.type === "LineString" &&
+          Array.isArray(sources.routes[0].geometry.coordinates)
+        ) {
+          const routes = sources.routes[0].geometry.coordinates;
+
+          const routeData = {
+            type: "Feature",
+            properties: {},
+            geometry: {
+              type: "LineString",
+              coordinates: [...routes],
+            },
+          };
+
+          map.current.addSource("route", {
+            type: "geojson",
+            data: routeData,
+          });
+
+          map.current.addLayer({
+            id: "route",
+            type: "line",
+            source: "route",
+            layout: {
+              "line-join": "round",
+              "line-cap": "round",
+            },
+            paint: {
+              "line-color": "#5271FF",
+              "line-width": 3,
+            },
+          });
+        } else {
+          console.error("Invalid geometry data");
+        }
+      }
+    });
+
+    map.current.on("click", (event) => {
+      const features = map.current.queryRenderedFeatures(event.point, {
+        layers: ["shutup-street"], // replace with your layer name
+      });
+      if (!features.length) {
+        return;
+      }
+      const feature = features[0];
+
+      new mapboxgl.Popup({ offset: [0, -15] })
+        .setLngLat(feature.geometry.coordinates)
+        .setHTML(
+          `
+          <img src="${process.env.PUBLIC_URL}/shuttle-stop/${feature.properties.image}" 
+            alt="image" 
+            style="width: fit-content; height: 100px; border-radius: 5px; object-fit: cover;">
+          <h3 style="margin: 0; font: 12px/20px Helvetica Neue,Arial,Helvetica,sans-serif;font-weight: bold;">${feature.properties.title}</h3>
+          `
+        )
+        .addTo(map.current);
+    });
 
     // Listen for driver's location updates from Firestore
     const unsubscribe = onSnapshot(
@@ -43,51 +108,6 @@ const Map = () => {
           // Ensure coordinates are numbers
           // const lat = Number(latitude);
           // const lng = Number(longitude);
-
-          map.current.on("load", function () {
-            // Check if the source already exists
-            if (!map.current.getSource("route")) {
-              // Check if the geometry data exists and is in the correct format
-              console.log("route", sources.routes);
-              if (
-                sources.routes[0]?.geometry &&
-                sources.routes[0].geometry.type === "LineString" &&
-                Array.isArray(sources.routes[0].geometry.coordinates)
-              ) {
-                const routes = sources.routes[0].geometry.coordinates;
-
-                const routeData = {
-                  type: "Feature",
-                  properties: {},
-                  geometry: {
-                    type: "LineString",
-                    coordinates: [...routes],
-                  },
-                };
-
-                map.current.addSource("route", {
-                  type: "geojson",
-                  data: routeData,
-                });
-
-                map.current.addLayer({
-                  id: "route",
-                  type: "line",
-                  source: "route",
-                  layout: {
-                    "line-join": "round",
-                    "line-cap": "round",
-                  },
-                  paint: {
-                    "line-color": "#5271FF",
-                    "line-width": 3,
-                  },
-                });
-              } else {
-                console.error("Invalid geometry data");
-              }
-            }
-          });
 
           // map.current.flyTo({ center: [lng, lat], zoom: 15});
 
@@ -114,23 +134,20 @@ const Map = () => {
 
   return (
     <div>
-      <div className="header">
-        <img src={logo} alt="Shut Up!" className="header-image" />
-        {/* <h1>Shut <img src={shuttle} alt="shuttle" style={{width: '24px'}} /> Up!</h1> */}
+      <div className="the-header">
+        <div className="header">
+          <img src={logo} alt="Shut Up!" className="header-image" />
+        </div>
+        <div className="navtab">
+          <a href="/map-info">
+            <h2>Maps</h2>
+          </a>
+          <a href="/about-us">
+            <h2>About Us</h2>
+          </a>
+        </div>
       </div>
-      <div className="navtab">
-        <a href="/map-info">
-          <h2>Maps</h2>
-        </a>
-        <a href="/about-us">
-          <h2>About Us</h2>
-        </a>
-      </div>
-      <div
-        className="mapboxgl-map"
-        ref={mapContainer}
-        style={{ width: "100vw", height: "100vh" }}
-      />
+      <div className="map-container" ref={mapContainer} />
       <div className="floating-icon-left">
         <h2 style={{ fontSize: "13px" }}>
           <img

@@ -1,17 +1,22 @@
 import React from "react";
-import backgroundImage from "./assets/background.png";
-import "./AboutUs.css";
 import { useNavigate } from "react-router-dom";
+import "./AboutUs.css";
+import backgroundImage from "./assets/background.png";
 import backButton from "./assets/icon/back-button.png";
+import shutupTeam from "./assets/shutup-team.jpeg";
 
 const AboutUs = () => {
   const navigate = useNavigate();
 
   return (
-    <div>
+    <div
+      style={{
+        fontFamily: "Coiny, sans-serif",
+      }}
+    >
       <div className="aboutus-header" style={{ position: "relative" }}>
         <button
-          onClick={() => navigate(-1)}
+          onClick={() => navigate("/")}
           style={{
             position: "absolute",
             top: "50%",
@@ -40,15 +45,17 @@ const AboutUs = () => {
         style={{
           padding: "50px",
           backgroundImage: `url(${backgroundImage})`,
-          backgroundRepeat: 'repeat-y',
+          backgroundRepeat: "repeat",
           backgroundPosition: "center",
           width: "100vw",
-          height: "100vh",
-          boxSizing: "border-box"}}
+          // height: "100vh",
+          boxSizing: "border-box",
+        }}
       >
         <div
           className="content"
           style={{
+            marginTop: "0px",
             backgroundColor: "#0D1437",
             color: "#fff",
             padding: "30px",
@@ -75,19 +82,33 @@ const AboutUs = () => {
           </p>
         </div>
         <div
-          className="content"
+          className=""
           style={{
-            marginTop: "50px",
-            backgroundColor: "#0D1437",
+            marginTop: "30px",
             color: "#fff",
-            padding: "30px",
-            paddingTop: "10px",
+            // padding: "30px",
+            // paddingTop: "10px",
             paddingBottom: "10px",
             textAlign: "center",
             borderRadius: "20px",
+            backgroundColor: "#0D1437",
           }}
         >
-          <h3>Our Team</h3>
+          <div className="content-card">
+            <h3>Shut Up Team</h3>
+            <img
+              className="shutup-team"
+              src={shutupTeam}
+              alt="Shut Up Team"
+              style={{
+                // width: "80%",
+                objectFit: "cover",
+                objectPosition: "50% 50%",
+                borderRadius: "20px",
+                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+              }}
+            />
+          </div>
         </div>
       </div>
     </div>

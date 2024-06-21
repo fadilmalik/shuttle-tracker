@@ -9,10 +9,14 @@ const Report = () => {
   const navigate = useNavigate();
 
   return (
-    <div>
+    <div
+      style={{
+        fontFamily: "Coiny, sans-serif",
+      }}
+    >
       <div className="aboutus-header" style={{ position: "relative" }}>
         <button
-          onClick={() => navigate(-1)}
+          onClick={() => navigate("/")}
           style={{
             position: "absolute",
             top: "50%",

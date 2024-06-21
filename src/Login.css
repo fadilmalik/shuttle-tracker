@@ -32,6 +32,9 @@
 }
 
 .login-form button {
+  font-family: "Coiny", system-ui;
+  font-weight: 400;
+  font-style: normal;
   display: block;
   margin-left: auto;
   border: none;
@@ -57,6 +60,7 @@
   border-radius: 5px;
   border: none;
   font-size: 0.7rem;
+  font-family: "Coiny", sans-serif;
 }
 
 .login-form input:hover {

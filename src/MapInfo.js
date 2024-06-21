@@ -1,19 +1,23 @@
 import React from "react";
-import backgroundImage from "./assets/background.png";
 import { useNavigate } from "react-router-dom";
-import backButton from "./assets/icon/back-button.png";
-import "./Report.css";
 import "./MapInfo.css";
+import "./Report.css";
+import backgroundImage from "./assets/background.png";
+import backButton from "./assets/icon/back-button.png";
 import staticMap from "./assets/static-map.jpeg";
 
 const MapInfo = () => {
   const navigate = useNavigate();
 
   return (
-    <div>
+    <div
+      style={{
+        fontFamily: "Coiny, sans-serif",
+      }}
+    >
       <div className="aboutus-header" style={{ position: "relative" }}>
         <button
-          onClick={() => navigate(-1)}
+          onClick={() => navigate("/")}
           style={{
             position: "absolute",
             top: "50%",
@@ -49,13 +53,20 @@ const MapInfo = () => {
           boxSizing: "border-box",
         }}
       >
-        <div style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          padding: '50px'
-        }}>
-          <img className="static-map" src={staticMap} alt="staticMap" style={{ width: '500px', borderRadius: '20px' }} />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: "50px",
+          }}
+        >
+          <img
+            className="static-map"
+            src={staticMap}
+            alt="staticMap"
+            style={{ width: "500px", borderRadius: "20px" }}
+          />
         </div>
       </div>
     </div>

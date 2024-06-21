@@ -1,4 +1,3 @@
-
 .aboutus-header {
   background-color: #E7D3F7;
   padding: 5px;
@@ -10,4 +9,36 @@
   margin: 0;
   font-size: 24px;
   color: #000000;
+}
+
+
+
+/* For screens smaller than 600px */
+@media (max-width: 600px) {
+  .content-card {
+    font-size: small;
+    padding: 1px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+  
+  .shutup-team {
+   width: 250px;
+  }
+}
+
+/* For screens larger than 600px */
+@media (min-width: 800px) {
+  .content-card {
+    width: auto !important;
+    margin: 0 auto;
+    padding: 10px;
+    border-radius: 20px;
+    background-color: #0D1437
+  }
+
+  .shutup-team {
+    width: 50%; /* Adjust the width as needed */
+    height: auto;
+  }
 }
