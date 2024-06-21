@@ -120,14 +120,91 @@ const Map = () => {
       doc(firestore, "shuttles", "driver-1"),
       (doc) => {
         if (doc.exists()) {
-          // const data = doc.data();
-          // const { latitude, longitude } = data.coordinates;
+          const data = doc.data();
 
-          // Ensure coordinates are numbers
-          // const lat = Number(latitude);
-          // const lng = Number(longitude);
+          const {
+            longitude: driverLng,
+            latitude: driverLat,
+            loggedIn,
+          } = data.coordinates;
 
-          // map.current.flyTo({ center: [lng, lat], zoom: 15});
+          if (!loggedIn === true) {
+            let geojson = {
+              type: "FeatureCollection",
+              features: [
+                {
+                  type: "Feature",
+                  geometry: {
+                    type: "Point",
+                    coordinates: [driverLng, driverLat],
+                  },
+                },
+              ],
+            };
+
+            // Ensure coordinates are numbers
+            // Check if the source already exists before adding it
+            if (!map.current.getSource("iss")) {
+              map.current.addSource("iss", { type: "geojson", data: geojson });
+            } else {
+              // If it exists, update its data
+              map.current.getSource("iss").setData(geojson);
+            }
+
+            map.current.addLayer({
+              id: "iss",
+              type: "symbol",
+              source: "iss",
+              layout: {
+                "icon-image": "marker-shuttle",
+              },
+            });
+
+            map.current.moveLayer("iss");
+          }
+
+          // Obtain the user's current location
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((position) => {
+              const userLat = position.coords.latitude;
+              const userLng = position.coords.longitude;
+
+              // Add a marker for the user's location
+              new mapboxgl.Marker()
+                .setLngLat([userLng, userLat])
+                .addTo(map.current);
+
+              // Optionally, center the map on the user's location
+              // map.current.flyTo({ center: [userLng, userLat], zoom: 15 });
+            });
+          } else {
+            console.log("Geolocation is not supported by this browser.");
+          }
+
+          // Function to fly to the user's current location
+          function flyToUserLocation() {
+            if (navigator.geolocation) {
+              navigator.geolocation.getCurrentPosition(
+                (position) => {
+                  const userLat = position.coords.latitude;
+                  const userLng = position.coords.longitude;
+
+                  // Center the map on the user's location
+                  map.current.flyTo({ center: [userLng, userLat], zoom: 15 });
+                },
+                (error) => {
+                  console.error("Error obtaining location", error);
+                }
+              );
+            } else {
+              console.log("Geolocation is not supported by this browser.");
+            }
+          }
+
+          // Attach the flyToUserLocation function to a click event on an element
+          document
+            .getElementById("your-location")
+            .addEventListener("click", flyToUserLocation);
 
           map.current.on("move", () => {
             setLng(map.current.getCenter().lng.toFixed(4));
@@ -175,11 +252,12 @@ const Map = () => {
           />{" "}
           Shuttle
         </h2>
-        <h2 style={{ fontSize: "13px" }}>
+        <h2 style={{ fontSize: "13px", cursor: "pointer" }} id="your-location">
           <img
             src={location}
             alt="shuttle"
             style={{ width: "25px", marginRight: "5px" }}
+            title="Click to go to your location"
           />{" "}
           Your Location
         </h2>
