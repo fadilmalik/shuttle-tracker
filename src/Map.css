@@ -25,6 +25,22 @@
   text-align: center;
 }
 
+/* place login-button on right */
+.login-button {
+  font-family: "Coiny", system-ui;
+  font-weight: 300;
+  font-style: normal;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  padding: 5px 15px;
+  background-color: #fff;
+  color: #000;
+  border-radius: 10px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 .header h1 {
   margin: 0;
   font-size: 24px;

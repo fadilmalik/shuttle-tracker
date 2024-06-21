@@ -305,6 +305,15 @@ const Map = () => {
     <div>
       <div className="the-header">
         <div className="header">
+          {/* add button login */}
+          <button
+            className="login-button"
+            onClick={() => {
+              navigate("/login");
+            }}
+          >
+            Login
+          </button>
           <img src={logo} alt="Shut Up!" className="header-image" />
         </div>
         <div className="navtab">
