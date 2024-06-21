@@ -37,7 +37,9 @@ const Map = () => {
       zoom: zoom, // Initial zoom level
     });
 
-    map.marker = new mapboxgl.Marker();
+    map.marker = new mapboxgl.Marker({
+      scale: 0.8,
+    });
 
     map.current.on("load", function () {
       // Check if the source already exists
@@ -235,7 +237,7 @@ const Map = () => {
     );
 
     const unsubscribe2 = onSnapshot(
-      doc(firestore, "shuttles", "driver-1"),
+      doc(firestore, "shuttles", "driver-2"),
       (doc) => {
         if (doc.exists()) {
           const data = doc.data();

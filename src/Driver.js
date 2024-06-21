@@ -8,7 +8,7 @@ import locationLogo from "./assets/icon/location.png";
 import { firestore } from "./firebase";
 
 const Driver = () => {
-  const { logout } = useAuth();
+  const { logout, userData } = useAuth();
   const navigate = useNavigate();
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
@@ -23,6 +23,7 @@ const Driver = () => {
   };
 
   const checkDeviceId = async () => {
+    let docRefName = userData.username === "driver1" ? "driver-1" : "driver-2";
     let isValidSession = true;
     try {
       // Step 1: Retrieve the deviceId from local storage
@@ -33,7 +34,7 @@ const Driver = () => {
         isValidSession = false;
       }
       // Step 2: Fetch the current deviceId stored in the database for the user
-      const docRef = doc(firestore, "shuttles", "driver-1"); // Assuming 'driver-1' is the user's ID
+      const docRef = doc(firestore, "shuttles", docRefName); // Assuming 'driver-1' is the user's ID
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         const databaseDeviceId = docSnap.data().deviceId;
@@ -64,7 +65,8 @@ const Driver = () => {
       if (isValidSession) {
         const updateLocation = async (position) => {
           const { latitude, longitude } = position.coords;
-          const driverId = "driver-1"; // Unique identifier for the driver
+          let driverId =
+            userData.username === "driver1" ? "driver-1" : "driver-2";
           setLatitude(latitude);
           setLongitude(longitude);
 

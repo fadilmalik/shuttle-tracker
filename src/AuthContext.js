@@ -23,7 +23,14 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const checkAuth = async () => {
-      const docRef = doc(firestore, COLLECTION, "driver-1");
+      if (!userData) {
+        setLoading(false);
+        return;
+      }
+      const docRefName =
+        userData.username === "driver1" ? "driver-1" : "driver-2";
+
+      const docRef = doc(firestore, COLLECTION, docRefName);
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
@@ -41,7 +48,16 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (username, password) => {
-    const docRef = doc(firestore, COLLECTION, "driver-1");
+    // get docrefname based on username with firestore query
+    let docRefName = "";
+    if (username === "driver1") {
+      docRefName = "driver-1";
+    } else {
+      docRefName = "driver-2";
+    }
+
+    // if (username === 'driver1')
+    const docRef = doc(firestore, COLLECTION, docRefName);
     const docSnap = await getDoc(docRef);
 
     // Step 1: Generate or retrieve a device ID
@@ -53,7 +69,7 @@ export const AuthProvider = ({ children }) => {
 
     if (docSnap.exists()) {
       const data = docSnap.data();
-
+      console.log("Data:", data);
       if (data.username === username && data.password === password) {
         if (data.loggedIn) {
           // Step 3: Compare device IDs
@@ -81,8 +97,11 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
+    const docRefName =
+      userData.username === "driver1" ? "driver-1" : "driver-2";
+
     // Update the loggedIn status in your database
-    const docRef = doc(firestore, COLLECTION, "driver-1");
+    const docRef = doc(firestore, COLLECTION, docRefName);
     await updateDoc(docRef, {
       loggedIn: false,
       // Optionally, you might want to clear or update the deviceId in the database as well
