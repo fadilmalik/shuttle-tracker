@@ -58,14 +58,14 @@ const MapInfo = () => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            padding: "50px",
+            // padding: "50px",
           }}
         >
           <img
             className="static-map"
             src={staticMap}
             alt="staticMap"
-            style={{ width: "500px", borderRadius: "20px" }}
+            style={{ width: "500px", height: "90vh", borderRadius: "20px" }}
           />
         </div>
       </div>

@@ -84,14 +84,32 @@ const Map = () => {
       }
       const feature = features[0];
 
+      // Detect if the browser is Safari
+      const isSafari = /^((?!chrome|android).)*safari/i.test(
+        navigator.userAgent
+      );
+
       new mapboxgl.Popup({ offset: [0, -15] })
         .setLngLat(feature.geometry.coordinates)
         .setHTML(
           `
-          <img src="${process.env.PUBLIC_URL}/shuttle-stop/${feature.properties.image}" 
+          <img className="popup-image" src="${
+            process.env.PUBLIC_URL
+          }/shuttle-stop/${feature.properties.image}" 
             alt="image" 
-            style="width: fit-content; height: 100px; border-radius: 5px; object-fit: cover;">
-          <h3 style="margin: 0; font: 12px/20px Helvetica Neue,Arial,Helvetica,sans-serif;font-weight: bold;">${feature.properties.title}</h3>
+            style="
+              width: ${isSafari ? "fit-content" : "-webkit-fit-content"};
+              width: ${isSafari ? "200px" : ""};
+              height: 100px;
+              border-radius: 5px;
+              object-fit: cover;
+              display: block;
+              margin-left: auto;
+              margin-right: auto;
+            ">
+          <h3 style="margin: 0; font: 12px/20px Helvetica Neue,Arial,Helvetica,sans-serif;font-weight: bold;">${
+            feature.properties.title
+          }</h3>
           `
         )
         .addTo(map.current);
