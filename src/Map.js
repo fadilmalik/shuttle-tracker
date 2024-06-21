@@ -17,15 +17,15 @@ const Map = () => {
   const mapContainer = useRef(null);
   const map = useRef(null);
   // const marker = useRef(null);
-  const [lng, setLng] = useState(107.7695);
-  const [lat, setLat] = useState(-6.9299);
-  const [zoom, setZoom] = useState(15.9);
+  const [lng, setLng] = useState(107.7691);
+  const [lat, setLat] = useState(-6.93);
+  const [zoom, setZoom] = useState(15.7);
 
   useEffect(() => {
     // Initialize map
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style: "mapbox://styles/mapbox/streets-v12",
+      style: "mapbox://styles/fadilmalik/clxny335800iv01qq5w8bd7pq",
       center: [lng, lat], // Default center (Bandung coordinates)
       zoom: zoom, // Initial zoom level
     });
@@ -54,9 +54,6 @@ const Map = () => {
                 sources.routes[0].geometry.type === "LineString" &&
                 Array.isArray(sources.routes[0].geometry.coordinates)
               ) {
-                const waypoints = sources.waypoints.map(
-                  (waypoint) => waypoint.location
-                );
                 const routes = sources.routes[0].geometry.coordinates;
 
                 const routeData = {
@@ -85,34 +82,6 @@ const Map = () => {
                     "line-color": "#5271FF",
                     "line-width": 3,
                   },
-                });
-
-                // Add markers for each waypoint
-                waypoints.forEach((waypoint, index) => {
-                  map.current.addSource(`waypoint-${index}`, {
-                    type: "geojson",
-                    data: {
-                      type: "Feature",
-                      geometry: {
-                        type: "Point",
-                        coordinates: waypoint,
-                      },
-                      properties: {
-                        title: `Waypoint ${index + 1}`,
-                        icon: "marker",
-                      },
-                    },
-                  });
-
-                  map.current.addLayer({
-                    id: `waypoint-${index}`,
-                    type: "symbol",
-                    source: `waypoint-${index}`,
-                    layout: {
-                      "icon-image": "{icon}-15",
-                      "icon-allow-overlap": true,
-                    },
-                  });
                 });
               } else {
                 console.error("Invalid geometry data");

@@ -46,4 +46,13 @@
   display: inline;
   margin-left: auto;
   margin-top: 20px;
+  background-color: #5271FF;
+  color: #fff;
+  border-radius: 10px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn-logout:hover {
+  background-color: #3e60f7;
 }

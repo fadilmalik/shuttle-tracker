@@ -7,7 +7,7 @@
 }
 
 .mapboxgl-map{
-  cursor: crosshair;
+  /* cursor: crosshair; */
 }
 
 .header {
