@@ -11,13 +11,13 @@ export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    const savedAuthState = window.sessionStorage.getItem("isAuthenticated");
+    const savedAuthState = window.localStorage.getItem("isAuthenticated");
     return savedAuthState ? JSON.parse(savedAuthState) : false;
   });
   const [loading, setLoading] = useState(true);
   // Initialize userData from localStorage
   const [userData, setUserData] = useState(() => {
-    const savedUserData = window.sessionStorage.getItem("userData");
+    const savedUserData = window.localStorage.getItem("userData");
     return savedUserData ? JSON.parse(savedUserData) : null;
   });
 
@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }) => {
       if (docSnap.exists()) {
         const data = docSnap.data();
         setIsAuthenticated(data.loggedIn);
-        window.sessionStorage.setItem(
+        window.localStorage.setItem(
           "isAuthenticated",
           JSON.stringify(data.loggedIn)
         );
@@ -60,17 +60,15 @@ export const AuthProvider = ({ children }) => {
     const docRef = doc(firestore, COLLECTION, docRefName);
     const docSnap = await getDoc(docRef);
 
-    // Step 1: Generate or retrieve a device ID
-    let deviceId = sessionStorage.getItem("deviceId");
-    if (!deviceId) {
-      deviceId = v4(); // Implement this function based on your requirements
-      sessionStorage.setItem("deviceId", deviceId);
-    }
-
     if (docSnap.exists()) {
       const data = docSnap.data();
       console.log("Data:", data);
       if (data.username === username && data.password === password) {
+        // Step 1: Generate or retrieve a device ID
+        let deviceId = localStorage.getItem("deviceId");
+        if (!deviceId) {
+          deviceId = v4(); // Implement this function based on your requirements
+        }
         if (data.loggedIn) {
           // Step 3: Compare device IDs
           if (data.deviceId === deviceId) {
@@ -87,7 +85,8 @@ export const AuthProvider = ({ children }) => {
         });
         setUserData(data);
         setIsAuthenticated(true);
-        window.sessionStorage.setItem("userData", JSON.stringify(data));
+        window.localStorage.setItem("userData", JSON.stringify(data));
+        localStorage.setItem("deviceId", deviceId);
       } else {
         throw new Error("Invalid credentials!");
       }
@@ -109,16 +108,16 @@ export const AuthProvider = ({ children }) => {
     });
 
     // Remove the device ID from local storage
-    sessionStorage.removeItem("deviceId");
+    localStorage.removeItem("deviceId");
 
     // Update local state to reflect that the user is no longer authenticated
     setIsAuthenticated(false);
 
     // Optionally, clear any other local storage or session data related to the user session
-    window.sessionStorage.removeItem("isAuthenticated");
+    window.localStorage.removeItem("isAuthenticated");
 
     // Clear userData from localStorage
-    window.sessionStorage.removeItem("userData");
+    window.localStorage.removeItem("userData");
     // Clear user data from state
     setUserData(null);
   };

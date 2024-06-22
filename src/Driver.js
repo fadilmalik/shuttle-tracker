@@ -16,7 +16,7 @@ const Driver = () => {
   const handleLogout = async () => {
     try {
       await logout();
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       console.error("Error signing out", error);
     }
@@ -27,10 +27,10 @@ const Driver = () => {
     let isValidSession = true;
     try {
       // Step 1: Retrieve the deviceId from local storage
-      const localDeviceId = sessionStorage.getItem("deviceId");
+      const localDeviceId = localStorage.getItem("deviceId");
       console.log("Local Device ID:", localDeviceId);
       if (!localDeviceId) {
-        navigate("/login");
+        navigate("/");
         isValidSession = false;
       }
       // Step 2: Fetch the current deviceId stored in the database for the user
@@ -43,7 +43,7 @@ const Driver = () => {
         if (localDeviceId !== databaseDeviceId) {
           // If they are not the same, display an alert and navigate to the login page
           // alert("Your session has been terminated on this device.");
-          navigate("/login");
+          navigate("/");
           isValidSession = false;
         }
       } else {
@@ -99,22 +99,22 @@ const Driver = () => {
 
     checkSessionAndHandleLocation();
 
-    const handleTabClose = (event) => {
-      // Clear local storage
-      localStorage.removeItem("deviceId");
-      // Or clear session storage
-      sessionStorage.removeItem("deviceId");
+    // const handleTabClose = (event) => {
+    //   // Clear local storage
+    //   localStorage.removeItem("deviceId");
+    //   // Or clear session storage
+    //   sessionStorage.removeItem("deviceId");
 
-      // Preventing default behavior (in some browsers) and showing a confirmation dialog
-      // Note: Most modern browsers have limited this capability.
-      event.preventDefault();
-      event.returnValue = "";
-    };
+    //   // Preventing default behavior (in some browsers) and showing a confirmation dialog
+    //   // Note: Most modern browsers have limited this capability.
+    //   event.preventDefault();
+    //   event.returnValue = "";
+    // };
 
-    window.addEventListener("beforeunload", handleTabClose);
+    // window.addEventListener("beforeunload", handleTabClose);
 
     return () => {
-      window.removeEventListener("beforeunload", handleTabClose);
+      // window.removeEventListener("beforeunload", handleTabClose);
     };
   }, []);
 

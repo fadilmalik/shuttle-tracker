@@ -18,6 +18,13 @@ mapboxgl.accessToken =
 
 const Map = () => {
   let chatId = sessionStorage.getItem("chatId");
+  let isAuthenticated = localStorage.getItem("isAuthenticated");
+  let userData = localStorage.getItem("userData");
+  if (userData) {
+    userData = JSON.parse(userData);
+  }
+  console.log("isAuthenticated", isAuthenticated);
+  // console.log("userData", JSON.parse(userData));
   console.log("chatId", chatId);
   const navigate = useNavigate(); // Initialize useHistory
   const mapContainer = useRef(null);
@@ -43,10 +50,10 @@ const Map = () => {
       storedChatId = newChatId;
     }
 
-    const userData = sessionStorage.getItem("userData");
-    if (userData) {
-      navigate("/driver"); // Redirect to /driver if device ID is found
-    }
+    // const deviceId = localStorage.getItem("deviceId");
+    // if (deviceId) {
+    //   navigate("/driver"); // Redirect to /driver if device ID is found
+    // }
 
     // Initialize map
     map.current = new mapboxgl.Map({
@@ -332,14 +339,25 @@ const Map = () => {
       <div className="the-header">
         <div className="header">
           {/* add button login */}
-          <button
-            className="login-button"
-            onClick={() => {
-              navigate("/login");
-            }}
-          >
-            Login
-          </button>
+          {isAuthenticated ? (
+            <button
+              className="logged"
+              onClick={() => {
+                navigate("/driver");
+              }}
+            >
+              {userData.username}
+            </button>
+          ) : (
+            <button
+              className="login-button"
+              onClick={() => {
+                navigate("/login");
+              }}
+            >
+              Login
+            </button>
+          )}
           <img src={logo} alt="Shut Up!" className="header-image" />
         </div>
         <div className="navtab">
