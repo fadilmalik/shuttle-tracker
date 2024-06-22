@@ -4,6 +4,7 @@ import mapboxgl from "mapbox-gl";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Map.css";
+import bubbleChat from "./assets/icon/bubble-chat.png";
 import shuttle from "./assets/icon/bus.png";
 import danger from "./assets/icon/danger.png";
 import location from "./assets/icon/location.png";
@@ -16,6 +17,8 @@ mapboxgl.accessToken =
   "pk.eyJ1IjoiZmFkaWxtYWxpayIsImEiOiJjbHdwdnFobmMyb2NlMmlwcDB5dXhrc3ZxIn0.bP8EisT79t7XJh9UzuhHqg";
 
 const Map = () => {
+  let chatId = sessionStorage.getItem("chatId");
+  console.log("chatId", chatId);
   const navigate = useNavigate(); // Initialize useHistory
   const mapContainer = useRef(null);
   const map = useRef(null);
@@ -23,7 +26,18 @@ const Map = () => {
   const [lat, setLat] = useState(-6.9289);
   const [zoom, setZoom] = useState(15.7);
 
+  const navigateToChat = () => {
+    if (chatId) {
+      navigate("/chat-customer", { state: { chatId: chatId } });
+    } else {
+      navigate("/report");
+    }
+  };
+
   useEffect(() => {
+    const newChatId = "chat-" + Math.random().toString(36).substr(2, 9);
+    sessionStorage.setItem("chatId", newChatId);
+
     const deviceId = localStorage.getItem("deviceId");
     if (deviceId) {
       navigate("/driver"); // Redirect to /driver if device ID is found
@@ -359,6 +373,15 @@ const Map = () => {
         <h2 style={{ fontSize: "15px", display: "flex", alignItems: "center" }}>
           <a href="/report">
             <img src={danger} alt="another icon" style={{ width: "30px" }} />
+          </a>
+        </h2>
+        <h2 style={{ fontSize: "15px", display: "flex", alignItems: "center" }}>
+          <a href="/chat-customer" onClick={navigateToChat}>
+            <img
+              src={bubbleChat}
+              alt="another icon"
+              style={{ width: "30px" }}
+            />
           </a>
         </h2>
       </div>

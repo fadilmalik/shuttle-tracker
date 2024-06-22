@@ -1,14 +1,15 @@
 // src/App.js
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Driver from "./Driver";
-import Map from "./Map";
-import Login from "./Login";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import AboutUs from "./AboutUs";
-import Report from "./Report";
+import { AuthProvider } from "./AuthContext";
+import Chat from "./Chat";
+import Driver from "./Driver";
+import Login from "./Login";
+import Map from "./Map";
 import MapInfo from "./MapInfo";
 import PrivateRoute from "./PrivateRoute";
-import { AuthProvider } from "./AuthContext";
+import Report from "./Report";
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/report" element={<Report />} />
           <Route path="/map-info" element={<MapInfo />} />
+          <Route path="/chat-customer" element={<Chat />} />
           <Route path="/" element={<Map />} />
         </Routes>
       </Router>
