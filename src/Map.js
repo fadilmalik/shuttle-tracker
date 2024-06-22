@@ -346,7 +346,7 @@ const Map = () => {
                 navigate("/driver");
               }}
             >
-              {userData.username}
+              {userData?.username}
             </button>
           ) : (
             <button
