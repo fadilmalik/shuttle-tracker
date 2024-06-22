@@ -110,7 +110,28 @@ const ChatAdmin = () => {
             >
               All Chats
             </h1>
-            <ul>
+            <ul
+              style={{
+                height: "75vh", // Set a fixed height
+                overflowY: "auto", // Enable vertical scrolling
+              }}
+            >
+              {chats.map((chat) => (
+                <li
+                  key={chat.id}
+                  onClick={() => navigateToChat(chat.id)}
+                  style={{
+                    cursor: "pointer",
+                    padding: "10px",
+                    margin: "10px 0",
+                    borderRadius: "5px",
+                    border: "1px solid #000",
+                  }}
+                >
+                  Date: {chat.createdAt}
+                  <br /> Last Message: {chat.lastMessage}
+                </li>
+              ))}
               {chats.map((chat) => (
                 <li
                   key={chat.id}
