@@ -339,7 +339,7 @@ const Map = () => {
       <div className="the-header">
         <div className="header">
           {/* add button login */}
-          {isAuthenticated ? (
+          {isAuthenticated === true ? (
             <button
               className="logged"
               onClick={() => {
