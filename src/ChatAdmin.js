@@ -1,4 +1,4 @@
-import { collection, onSnapshot, query } from "firebase/firestore";
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import backgroundImage from "./assets/background.png";
@@ -16,7 +16,10 @@ const ChatAdmin = () => {
   }
 
   useEffect(() => {
-    const q = query(collection(firestore, "chats"));
+    const q = query(
+      collection(firestore, "chats"),
+      orderBy("createdAt", "desc")
+    );
     // loaded all documents from the "chats" collection
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
