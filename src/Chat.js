@@ -21,6 +21,7 @@ const Chat = () => {
   const location = useLocation();
   const chatId = location.state?.chatId;
   const sender = location.state?.sender === "admin" ? "admin" : "customer";
+  const authenticated = location.state?.authenticated || false;
 
   const navigate = useNavigate();
   const [messages, setMessages] = useState([]);
@@ -170,7 +171,12 @@ const Chat = () => {
               {messages.map((msg, index) => (
                 <div key={index}>
                   <strong>
-                    {msg.sender === "customer" ? "You" : "Admin"}:
+                    {msg.sender === "customer"
+                      ? authenticated
+                        ? "Customer"
+                        : "You"
+                      : "Admin"}
+                    :
                   </strong>{" "}
                   {msg.text}
                 </div>

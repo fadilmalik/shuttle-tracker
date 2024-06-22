@@ -35,7 +35,9 @@ const ChatAdmin = () => {
   }, []);
 
   const navigateToChat = (chatId) => {
-    navigate("/chat-customer", { state: { chatId: chatId, sender: "admin" } });
+    navigate("/chat-customer", {
+      state: { chatId: chatId, sender: "admin", authenticated: true },
+    });
   };
 
   return (
