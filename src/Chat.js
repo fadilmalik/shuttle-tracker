@@ -2,11 +2,14 @@
 import {
   addDoc,
   collection,
+  doc,
   onSnapshot,
   orderBy,
   query,
   serverTimestamp,
+  setDoc,
 } from "firebase/firestore";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./Report.css";
@@ -17,10 +20,14 @@ import { firestore } from "./firebase";
 const Chat = () => {
   const location = useLocation();
   const chatId = location.state?.chatId;
+  const sender = location.state?.sender === "admin" ? "admin" : "customer";
+
   const navigate = useNavigate();
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
-
+  if (!chatId) {
+    navigate("/");
+  }
   useEffect(() => {
     const q = query(
       collection(firestore, `chats/${chatId}/messages`),
@@ -36,10 +43,25 @@ const Chat = () => {
 
   const sendMessage = async () => {
     if (message.trim()) {
+      // Reference to the chat document
+      const chatRef = doc(firestore, `chats/${chatId}`);
+
+      // Set or update the chat document with any initial fields you need
+      // For example, setting a 'createdAt' timestamp or initializing other fields
+      await setDoc(
+        chatRef,
+        {
+          id: chatId,
+          createdAt: moment().format("YYYY-MM-DD HH:mm:ss"),
+          lastMessage: message,
+        },
+        { merge: true }
+      ); // Merge ensures existing fields are not overwritten
+
       await addDoc(collection(firestore, `chats/${chatId}/messages`), {
         text: message,
         timestamp: serverTimestamp(),
-        sender: "customer",
+        sender: sender,
         chatId: chatId,
       });
       setMessage("");
@@ -54,7 +76,7 @@ const Chat = () => {
     >
       <div className="aboutus-header" style={{ position: "relative" }}>
         <button
-          onClick={() => navigate("/")}
+          onClick={() => navigate(-1)}
           style={{
             position: "absolute",
             top: "50%",
@@ -76,7 +98,7 @@ const Chat = () => {
             }}
           />
         </button>
-        <h2>Customer Service</h2>
+        <h2>{sender === "admin" ? "Admin" : "Customer"} Service</h2>
       </div>
       <div
         className="about-us"

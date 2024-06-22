@@ -4,6 +4,7 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import AboutUs from "./AboutUs";
 import { AuthProvider } from "./AuthContext";
 import Chat from "./Chat";
+import ChatAdmin from "./ChatAdmin";
 import Driver from "./Driver";
 import Login from "./Login";
 import Map from "./Map";
@@ -24,6 +25,7 @@ const App = () => {
           <Route path="/report" element={<Report />} />
           <Route path="/map-info" element={<MapInfo />} />
           <Route path="/chat-customer" element={<Chat />} />
+          <Route path="/chat-admin" element={<ChatAdmin />} />
           <Route path="/" element={<Map />} />
         </Routes>
       </Router>
