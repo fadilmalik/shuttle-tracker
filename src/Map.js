@@ -43,7 +43,7 @@ const Map = () => {
       storedChatId = newChatId;
     }
 
-    const deviceId = localStorage.getItem("deviceId");
+    const deviceId = sessionStorage.getItem("deviceId");
     if (deviceId) {
       navigate("/driver"); // Redirect to /driver if device ID is found
     }

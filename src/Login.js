@@ -14,7 +14,7 @@ const Login = () => {
 
   useEffect(() => {
     // Retrieve the userData from local storage
-    const userData = localStorage.getItem("userData");
+    const userData = sessionStorage.getItem("userData");
 
     // Check if userData is not null
     if (userData) {

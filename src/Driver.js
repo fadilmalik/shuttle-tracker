@@ -27,7 +27,7 @@ const Driver = () => {
     let isValidSession = true;
     try {
       // Step 1: Retrieve the deviceId from local storage
-      const localDeviceId = localStorage.getItem("deviceId");
+      const localDeviceId = sessionStorage.getItem("deviceId");
       console.log("Local Device ID:", localDeviceId);
       if (!localDeviceId) {
         navigate("/login");
