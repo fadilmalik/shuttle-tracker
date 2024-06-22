@@ -85,19 +85,22 @@ const Map = () => {
             data: routeData,
           });
 
-          map.current.addLayer({
-            id: "route",
-            type: "line",
-            source: "route",
-            layout: {
-              "line-join": "round",
-              "line-cap": "round",
+          map.current.addLayer(
+            {
+              id: "route",
+              type: "line",
+              source: "route",
+              layout: {
+                "line-join": "round",
+                "line-cap": "round",
+              },
+              paint: {
+                "line-color": "#5271FF",
+                "line-width": 3,
+              },
             },
-            paint: {
-              "line-color": "#5271FF",
-              "line-width": 3,
-            },
-          });
+            "waterway-label"
+          );
         } else {
           console.error("Invalid geometry data");
         }
