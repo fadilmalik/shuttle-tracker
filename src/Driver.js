@@ -98,6 +98,24 @@ const Driver = () => {
     };
 
     checkSessionAndHandleLocation();
+
+    const handleTabClose = (event) => {
+      // Clear local storage
+      localStorage.removeItem("deviceId");
+      // Or clear session storage
+      sessionStorage.removeItem("deviceId");
+
+      // Preventing default behavior (in some browsers) and showing a confirmation dialog
+      // Note: Most modern browsers have limited this capability.
+      event.preventDefault();
+      event.returnValue = "";
+    };
+
+    window.addEventListener("beforeunload", handleTabClose);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleTabClose);
+    };
   }, []);
 
   return (
