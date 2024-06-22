@@ -320,6 +320,7 @@ const Map = () => {
     // Clean up on unmount
     return () => {
       map.current.remove();
+      map.marker.remove();
       unsubscribe1();
       unsubscribe2();
     };
