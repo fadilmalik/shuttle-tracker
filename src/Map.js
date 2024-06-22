@@ -35,8 +35,13 @@ const Map = () => {
   };
 
   useEffect(() => {
-    const newChatId = "chat-" + Math.random().toString(36).substr(2, 9);
-    sessionStorage.setItem("chatId", newChatId);
+    let storedChatId = sessionStorage.getItem("chatId");
+    if (!storedChatId) {
+      // If there's no chatId in sessionStorage, generate a new one and store it
+      const newChatId = "chat-" + Math.random().toString(36).substr(2, 9);
+      sessionStorage.setItem("chatId", newChatId);
+      storedChatId = newChatId;
+    }
 
     const deviceId = localStorage.getItem("deviceId");
     if (deviceId) {
