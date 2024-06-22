@@ -166,6 +166,8 @@ const Chat = () => {
               id="chat-box"
               style={{
                 marginTop: "20px",
+                height: "75vh", // Set a fixed height
+                overflowY: "auto", // Enable vertical scrolling
               }}
             >
               {messages.map((msg, index) => (
