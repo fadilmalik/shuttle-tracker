@@ -1,13 +1,19 @@
 import { collection, onSnapshot, query } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import backgroundImage from "./assets/background.png";
 import backButton from "./assets/icon/back-button.png";
 import { firestore } from "./firebase"; // Adjust this import according to your actual firebase config file's location
 
 const ChatAdmin = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const authenticated = location.state?.authenticated || false;
   const [chats, setChats] = useState([]);
+
+  if (!authenticated) {
+    navigate("/login");
+  }
 
   useEffect(() => {
     const q = query(collection(firestore, "chats"));
@@ -92,7 +98,7 @@ const ChatAdmin = () => {
                     cursor: "pointer",
                   }}
                 >
-                  Chat ID: {chat.id} - Last Message: {chat.lastMessage}
+                  Date: {chat.createdAt} - Last Message: {chat.lastMessage}
                 </li>
               ))}
             </ul>
