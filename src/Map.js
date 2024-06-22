@@ -223,6 +223,7 @@ const Map = () => {
                 source: "iss",
                 layout: {
                   "icon-image": "marker-shuttle",
+                  "icon-allow-overlap": true,
                 },
               });
 
@@ -290,6 +291,7 @@ const Map = () => {
                 source: "iss2",
                 layout: {
                   "icon-image": "marker-shuttle",
+                  "icon-allow-overlap": true,
                 },
               });
 
