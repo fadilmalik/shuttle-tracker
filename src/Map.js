@@ -43,8 +43,8 @@ const Map = () => {
       storedChatId = newChatId;
     }
 
-    const deviceId = sessionStorage.getItem("deviceId");
-    if (deviceId) {
+    const userData = sessionStorage.getItem("userData");
+    if (userData) {
       navigate("/driver"); // Redirect to /driver if device ID is found
     }
 
@@ -281,30 +281,30 @@ const Map = () => {
           if (loggedIn === true) {
             // Ensure coordinates are numbers
             // Check if the source already exists before adding it
-            if (!map.current.getSource("iss")) {
-              map.current.addSource("iss", { type: "geojson", data: geojson });
+            if (!map.current.getSource("iss2")) {
+              map.current.addSource("iss2", { type: "geojson", data: geojson });
 
               map.current.addLayer({
-                id: "iss",
+                id: "iss2",
                 type: "symbol",
-                source: "iss",
+                source: "iss2",
                 layout: {
                   "icon-image": "marker-shuttle",
                 },
               });
 
-              // map.current.getSource("iss").setData(geojson);
+              // map.current.getSource("iss2").setData(geojson);
             } else {
               // If it exists, update its data
-              map.current.getSource("iss").setData(geojson);
+              map.current.getSource("iss2").setData(geojson);
             }
 
-            // map.current.moveLayer("iss");
+            // map.current.moveLayer("iss2");
           } else {
-            if (map.current.getLayer("iss")) {
-              map.current.removeLayer("iss");
-              if (map.current.getSource("iss")) {
-                map.current.removeSource("iss");
+            if (map.current.getLayer("iss2")) {
+              map.current.removeLayer("iss2");
+              if (map.current.getSource("iss2")) {
+                map.current.removeSource("iss2");
               }
             }
           }
@@ -315,7 +315,6 @@ const Map = () => {
     // Clean up on unmount
     return () => {
       map.current.remove();
-      map.marker.remove();
       unsubscribe1();
       unsubscribe2();
     };
