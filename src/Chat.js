@@ -120,18 +120,53 @@ const Chat = () => {
             // padding: "50px",
           }}
         >
-          <div id="chat-container">
+          <div
+            id="chat-container"
+            style={{
+              width: "100%",
+              maxWidth: "500px",
+              padding: "20px",
+              backgroundColor: "rgba(255, 255, 255, 0.8)",
+              borderRadius: "10px",
+            }}
+          >
             <input
               type="text"
               id="message-input"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Type a message..."
+              style={{
+                width: "100%",
+                padding: "10px",
+                boxSizing: "border-box",
+                borderRadius: "5px",
+                border: "none",
+                marginBottom: "10px",
+              }}
             />
-            <button id="send-button" onClick={sendMessage}>
+            <button
+              id="send-button"
+              onClick={sendMessage}
+              style={{
+                padding: "10px",
+                backgroundColor: "#007bff",
+                color: "#fff",
+                border: "none",
+                borderRadius: "5px",
+                cursor: "pointer",
+                // bring to rught
+                float: "right",
+              }}
+            >
               Send
             </button>
-            <div id="chat-box">
+            <div
+              id="chat-box"
+              style={{
+                marginTop: "20px",
+              }}
+            >
               {messages.map((msg, index) => (
                 <div key={index}>
                   <strong>

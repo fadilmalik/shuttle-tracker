@@ -87,8 +87,24 @@ const ChatAdmin = () => {
             // padding: "50px",
           }}
         >
-          <div>
-            <h1>All Chats</h1>
+          <div
+            style={{
+              width: "100%",
+              maxWidth: "500px",
+              padding: "20px",
+              backgroundColor: "rgba(255, 255, 255, 0.8)",
+              borderRadius: "10px",
+            }}
+          >
+            <h1
+              style={{
+                textAlign: "center",
+                fontSize: "1.5rem",
+                marginBottom: "20px",
+              }}
+            >
+              All Chats
+            </h1>
             <ul>
               {chats.map((chat) => (
                 <li
@@ -96,9 +112,14 @@ const ChatAdmin = () => {
                   onClick={() => navigateToChat(chat.id)}
                   style={{
                     cursor: "pointer",
+                    padding: "10px",
+                    margin: "10px 0",
+                    borderRadius: "5px",
+                    border: "1px solid #000",
                   }}
                 >
-                  Date: {chat.createdAt} - Last Message: {chat.lastMessage}
+                  Date: {chat.createdAt}
+                  <br /> Last Message: {chat.lastMessage}
                 </li>
               ))}
             </ul>
