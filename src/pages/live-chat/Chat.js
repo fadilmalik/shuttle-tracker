@@ -12,10 +12,10 @@ import {
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import "./Report.css";
-import backgroundImage from "./assets/background.png";
-import backButton from "./assets/icon/back-button.png";
-import { firestore } from "./config/firebase";
+import backgroundImage from "../../assets/background.png";
+import backButton from "../../assets/icon/back-button.png";
+import { firestore } from "../../config/firebase";
+import "../report/Report.css";
 
 const Chat = () => {
   const location = useLocation();

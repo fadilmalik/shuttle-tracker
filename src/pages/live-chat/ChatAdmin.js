@@ -1,9 +1,9 @@
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import backgroundImage from "./assets/background.png";
-import backButton from "./assets/icon/back-button.png";
-import { firestore } from "./config/firebase";
+import backgroundImage from "../../assets/background.png";
+import backButton from "../../assets/icon/back-button.png";
+import { firestore } from "../../config/firebase";
 
 const ChatAdmin = () => {
   const navigate = useNavigate();
