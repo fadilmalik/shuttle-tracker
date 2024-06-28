@@ -12,7 +12,6 @@ import shuttleStation from "./assets/icon/shuttle-station.png";
 import logo from "./assets/shutup-logo.png";
 import envConfig from "./config/envConfig";
 import { firestore } from "./config/firebase";
-import sources from "./sources.json";
 
 mapboxgl.accessToken = envConfig.mapboxgl.accessToken;
 
@@ -66,51 +65,6 @@ const Map = () => {
     });
 
     map.current.on("load", function () {
-      // Check if the source already exists
-      if (!map.current.getSource("route")) {
-        // Check if the geometry data exists and is in the correct format
-        if (
-          sources.routes[0]?.geometry &&
-          sources.routes[0].geometry.type === "LineString" &&
-          Array.isArray(sources.routes[0].geometry.coordinates)
-        ) {
-          const routes = sources.routes[0].geometry.coordinates;
-
-          const routeData = {
-            type: "Feature",
-            properties: {},
-            geometry: {
-              type: "LineString",
-              coordinates: [...routes],
-            },
-          };
-
-          map.current.addSource("route", {
-            type: "geojson",
-            data: routeData,
-          });
-
-          map.current.addLayer(
-            {
-              id: "route",
-              type: "line",
-              source: "route",
-              layout: {
-                "line-join": "round",
-                "line-cap": "round",
-              },
-              paint: {
-                "line-color": "#5271FF",
-                "line-width": 3,
-              },
-            },
-            "waterway-label"
-          );
-        } else {
-          console.error("Invalid geometry data");
-        }
-      }
-
       // Obtain the user's current location
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
