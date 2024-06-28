@@ -1,9 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import backgroundImage from "../../assets/background.png";
+import backButton from "../../assets/icon/back-button.png";
+import shutupTeam from "../../assets/shutup-team.jpeg";
 import "./AboutUs.css";
-import backgroundImage from "./assets/background.png";
-import backButton from "./assets/icon/back-button.png";
-import shutupTeam from "./assets/shutup-team.jpeg";
 
 const AboutUs = () => {
   const navigate = useNavigate();

@@ -1,16 +1,16 @@
 // src/App.js
 import React from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import AboutUs from "./AboutUs";
 import { AuthProvider } from "./AuthContext";
-import Chat from "./Chat";
-import ChatAdmin from "./ChatAdmin";
-import Driver from "./Driver";
-import Login from "./Login";
 import Map from "./Map";
-import MapInfo from "./MapInfo";
 import PrivateRoute from "./PrivateRoute";
-import Report from "./Report";
+import AboutUs from "./pages/about-us/AboutUs";
+import Driver from "./pages/driver/Driver";
+import Chat from "./pages/live-chat/Chat";
+import ChatAdmin from "./pages/live-chat/ChatAdmin";
+import Login from "./pages/login/Login";
+import MapInfo from "./pages/map-info/MapInfo";
+import Report from "./pages/report/Report";
 
 const App = () => {
   return (

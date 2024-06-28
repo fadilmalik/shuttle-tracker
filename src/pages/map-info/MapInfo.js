@@ -1,10 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import backgroundImage from "../../assets/background.png";
+import backButton from "../../assets/icon/back-button.png";
+import staticMap from "../../assets/static-map.jpeg";
+import "../report/Report.css";
 import "./MapInfo.css";
-import "./Report.css";
-import backgroundImage from "./assets/background.png";
-import backButton from "./assets/icon/back-button.png";
-import staticMap from "./assets/static-map.jpeg";
 
 const MapInfo = () => {
   const navigate = useNavigate();

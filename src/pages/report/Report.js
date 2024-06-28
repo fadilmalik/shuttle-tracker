@@ -1,9 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import backgroundImage from "../../assets/background.png";
+import backButton from "../../assets/icon/back-button.png";
+import warning from "../../assets/icon/warning.png";
 import "./Report.css";
-import backgroundImage from "./assets/background.png";
-import backButton from "./assets/icon/back-button.png";
-import warning from "./assets/icon/warning.png";
 
 const Report = () => {
   const navigate = useNavigate();

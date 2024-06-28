@@ -2,10 +2,10 @@
 import { doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "./AuthContext";
+import { useAuth } from "../../AuthContext";
+import locationLogo from "../../assets/icon/location.png";
+import { firestore } from "../../config/firebase";
 import "./Driver.css";
-import locationLogo from "./assets/icon/location.png";
-import { firestore } from "./firebase";
 
 const Driver = () => {
   const { logout, userData } = useAuth();

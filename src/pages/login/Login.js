@@ -1,9 +1,9 @@
 // src/Login.js
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "./AuthContext";
+import { useAuth } from "../../AuthContext";
+import logo from "../../assets/shutup-logo.png";
 import "./Login.css";
-import logo from "./assets/shutup-logo.png";
 
 const Login = () => {
   const { login } = useAuth();
