@@ -15,7 +15,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import "./Report.css";
 import backgroundImage from "./assets/background.png";
 import backButton from "./assets/icon/back-button.png";
-import { firestore } from "./firebase";
+import { firestore } from "./config/firebase";
 
 const Chat = () => {
   const location = useLocation();

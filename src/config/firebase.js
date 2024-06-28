@@ -2,15 +2,16 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import envConfig from "./envConfig";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyB_kL9ikISYnEUmfRnYvQiR-qk2WSG6OJM",
-  authDomain: "shuttle-tracker-75d56.firebaseapp.com",
-  projectId: "shuttle-tracker-75d56",
-  storageBucket: "shuttle-tracker-75d56.appspot.com",
-  messagingSenderId: "898564695228",
-  appId: "1:898564695228:web:95395c512e7bacd7a8dcb9",
-  measurementId: "G-XNVKME6J08",
+  apiKey: envConfig.firebase.apiKey,
+  authDomain: envConfig.firebase.authDomain,
+  projectId: envConfig.firebase.projectId,
+  storageBucket: envConfig.firebase.storageBucket,
+  messagingSenderId: envConfig.firebase.messagingSenderId,
+  appId: envConfig.firebase.appId,
+  measurementId: envConfig.firebase.measurementId,
 };
 
 // Initialize Firebase

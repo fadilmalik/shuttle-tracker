@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import backgroundImage from "./assets/background.png";
 import backButton from "./assets/icon/back-button.png";
-import { firestore } from "./firebase"; // Adjust this import according to your actual firebase config file's location
+import { firestore } from "./config/firebase";
 
 const ChatAdmin = () => {
   const navigate = useNavigate();

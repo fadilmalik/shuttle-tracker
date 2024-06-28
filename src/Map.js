@@ -10,11 +10,11 @@ import danger from "./assets/icon/danger.png";
 import location from "./assets/icon/location.png";
 import shuttleStation from "./assets/icon/shuttle-station.png";
 import logo from "./assets/shutup-logo.png";
-import { firestore } from "./firebase";
+import envConfig from "./config/envConfig";
+import { firestore } from "./config/firebase";
 import sources from "./sources.json";
 
-mapboxgl.accessToken =
-  "pk.eyJ1IjoiZmFkaWxtYWxpayIsImEiOiJjbHdwdnFobmMyb2NlMmlwcDB5dXhrc3ZxIn0.bP8EisT79t7XJh9UzuhHqg";
+mapboxgl.accessToken = envConfig.mapboxgl.accessToken;
 
 const Map = () => {
   let chatId = sessionStorage.getItem("chatId");
@@ -23,9 +23,7 @@ const Map = () => {
   if (userData) {
     userData = JSON.parse(userData);
   }
-  console.log("isAuthenticated", isAuthenticated);
-  // console.log("userData", JSON.parse(userData));
-  console.log("chatId", chatId);
+
   const navigate = useNavigate(); // Initialize useHistory
   const mapContainer = useRef(null);
   const map = useRef(null);
@@ -58,7 +56,7 @@ const Map = () => {
     // Initialize map
     map.current = new mapboxgl.Map({
       container: "root",
-      style: "mapbox://styles/fadilmalik/clxny335800iv01qq5w8bd7pq",
+      style: envConfig.mapboxgl.mapStyles,
       center: [lng, lat], // Default center (Bandung coordinates)
       zoom: zoom, // Initial zoom level
     });
@@ -202,11 +200,10 @@ const Map = () => {
       (doc) => {
         if (doc.exists()) {
           const data = doc.data();
-          console.log("lng", lng, "lat", lat, "zoom", zoom);
+
           const loggedIn = data.loggedIn;
           const { longitude: driverLng, latitude: driverLat } =
             data.coordinates;
-          console.log("Driver's location:", driverLat, driverLng);
 
           let geojson = {
             type: "FeatureCollection",
@@ -220,7 +217,7 @@ const Map = () => {
               },
             ],
           };
-          console.log("geojson", geojson);
+
           if (loggedIn === true) {
             // Ensure coordinates are numbers
             // Check if the source already exists before adding it

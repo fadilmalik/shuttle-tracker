@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 import "./Driver.css";
 import locationLogo from "./assets/icon/location.png";
-import { firestore } from "./firebase";
+import { firestore } from "./config/firebase";
 
 const Driver = () => {
   const { logout, userData } = useAuth();

@@ -2,7 +2,7 @@
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { v4 } from "uuid";
-import { firestore } from "./firebase";
+import { firestore } from "./config/firebase";
 
 const AuthContext = createContext();
 const COLLECTION = "shuttles";
